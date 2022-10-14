@@ -4,11 +4,31 @@
 # Log file
 *.log
 
+# Database logins
+db_dev.properties
+db_prod.properties
+application-dev.properties
+application-prod.properties
+
 # BlueJ files
 *.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+.idea/
+
+target/
+
+logs/
+
+#Gradle files
+.gradle/
+api/build/
+buildSrc/
+core/build/
+gradle/
+build/
 
 # Package Files #
 *.jar
@@ -21,3 +41,5 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+replay_pid*
+
