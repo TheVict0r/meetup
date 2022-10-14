@@ -5,10 +5,7 @@
 *.log
 
 # Database logins
-db_dev.properties
-db_prod.properties
-application-dev.properties
-application-prod.properties
+
 
 # BlueJ files
 *.ctxt
@@ -18,17 +15,11 @@ application-prod.properties
 
 .idea/
 
+.mvn
+
 target/
 
 logs/
-
-#Gradle files
-.gradle/
-api/build/
-buildSrc/
-core/build/
-gradle/
-build/
 
 # Package Files #
 *.jar
