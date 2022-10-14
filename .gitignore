@@ -21,6 +21,8 @@ target/
 
 logs/
 
+application.properties
+
 # Package Files #
 *.jar
 *.war
