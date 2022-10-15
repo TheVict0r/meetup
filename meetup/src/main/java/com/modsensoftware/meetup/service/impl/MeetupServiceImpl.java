@@ -3,6 +3,7 @@ package com.modsensoftware.meetup.service.impl;
 import com.modsensoftware.meetup.dao.MeetupDao;
 import com.modsensoftware.meetup.dao.entity.Meetup;
 import com.modsensoftware.meetup.dto.MeetupDto;
+import com.modsensoftware.meetup.exception.DuplicateUniqueFieldException;
 import com.modsensoftware.meetup.exception.InappropriateBodyContentException;
 import com.modsensoftware.meetup.exception.MismatchedIdValuesException;
 import com.modsensoftware.meetup.exception.ResourceNotFoundException;
@@ -46,6 +47,12 @@ private final MeetupMapper meetupMapper;
                     + " ID value '{}'.", meetupDto.getId());
             throw new InappropriateBodyContentException(meetupDto.getId());
         }
+
+        List<Meetup> byTopic = meetupDao.getByTopic(meetupDto.getTopic());
+        if(! byTopic.isEmpty()){
+            throw new DuplicateUniqueFieldException(meetupDto.getTopic(), "topic");
+        }
+
         Meetup meetupCreated = meetupDao.create(meetupMapper.convertToEntity(meetupDto));
         return meetupMapper.convertToDto(meetupCreated);
     }

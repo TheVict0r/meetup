@@ -16,6 +16,7 @@ import java.util.Optional;
 public class MeetupDaoImpl implements MeetupDao {
 
     public static final String FROM_MEETUP = "from Meetup";
+    public static final String BY_TOPIC = "from Meetup where topic = :topic";
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -23,6 +24,14 @@ public class MeetupDaoImpl implements MeetupDao {
     public Optional<Meetup> getById(long id) {
         log.debug("Reading the Meetup by ID - {}", id);
         return Optional.ofNullable(entityManager.find(Meetup.class, id));
+    }
+
+    @Override
+    public List<Meetup> getByTopic(String topic) {
+        log.debug("Reading the Meetup by topic - {}", topic);
+        TypedQuery<Meetup> query = entityManager.createQuery(BY_TOPIC, Meetup.class)
+                .setParameter("topic", topic);
+        return query.getResultList();
     }
 
     @Override
