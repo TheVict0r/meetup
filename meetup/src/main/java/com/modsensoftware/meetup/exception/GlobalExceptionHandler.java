@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
      * error code
      */
     @ExceptionHandler({InvalidRequestSortParamValueException.class, InappropriateBodyContentException.class,
-            MismatchedIdValuesException.class, DuplicateUniqueFieldException.class})
+            MismatchedIdValuesException.class, DuplicateFieldException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public IncorrectData handleException(AbstractLocalizedCustomException abstractLocalizedCustomException,
                                          Locale locale) {
@@ -151,7 +151,7 @@ public class GlobalExceptionHandler {
             allCustomErrorCodes.put(MethodArgumentTypeMismatchException.class, 40004);
             allCustomErrorCodes.put(ConstraintViolationException.class, 40005);
             allCustomErrorCodes.put(MethodArgumentNotValidException.class, 40006);
-            allCustomErrorCodes.put(DuplicateUniqueFieldException.class, 40007);
+            allCustomErrorCodes.put(DuplicateFieldException.class, 40007);
             allCustomErrorCodes.put(HttpMessageNotReadableException.class, 40008);
             allCustomErrorCodes.put(ResourceNotFoundException.class, 40401);
         }

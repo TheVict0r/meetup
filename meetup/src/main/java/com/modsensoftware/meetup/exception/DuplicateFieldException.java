@@ -1,6 +1,6 @@
 package com.modsensoftware.meetup.exception;
 
-public class DuplicateUniqueFieldException extends AbstractLocalizedCustomException {
+public class DuplicateFieldException extends AbstractLocalizedCustomException {
 
     /**
      * Custom exception thrown in the case if client sends to the datasource the value that duplicates existing
@@ -8,7 +8,7 @@ public class DuplicateUniqueFieldException extends AbstractLocalizedCustomExcept
      */
     public static final String MESSAGE_KEY = "message.duplicate_key";
 
-    public DuplicateUniqueFieldException(Object entry, Object uniqueKey) {
+    public DuplicateFieldException(Object entry, Object uniqueKey) {
         super(MESSAGE_KEY, new Object[]{entry, uniqueKey});
     }
 }
