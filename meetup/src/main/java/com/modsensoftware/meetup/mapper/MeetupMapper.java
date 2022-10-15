@@ -1,7 +1,7 @@
-package com.modsensoftware.meetup.service.mapper;
+package com.modsensoftware.meetup.mapper;
 
 
-import com.modsensoftware.meetup.dao.entity.Meetup;
+import com.modsensoftware.meetup.entity.Meetup;
 import com.modsensoftware.meetup.dto.MeetupDto;
 import lombok.NonNull;
 

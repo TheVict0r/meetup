@@ -1,19 +1,21 @@
 package com.modsensoftware.meetup.service.impl;
 
 import com.modsensoftware.meetup.dao.MeetupDao;
-import com.modsensoftware.meetup.dao.entity.Meetup;
+import com.modsensoftware.meetup.entity.Meetup;
 import com.modsensoftware.meetup.dto.MeetupDto;
 import com.modsensoftware.meetup.exception.DuplicateFieldException;
 import com.modsensoftware.meetup.exception.InappropriateBodyContentException;
 import com.modsensoftware.meetup.exception.MismatchedIdValuesException;
 import com.modsensoftware.meetup.exception.ResourceNotFoundException;
 import com.modsensoftware.meetup.service.MeetupService;
-import com.modsensoftware.meetup.service.mapper.MeetupMapper;
+import com.modsensoftware.meetup.mapper.MeetupMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,19 +24,28 @@ import java.util.Optional;
 @Service
 public class MeetupServiceImpl implements MeetupService {
 
-private final MeetupDao meetupDao;
-private final MeetupMapper meetupMapper;
+    private final MeetupDao meetupDao;
+    private final MeetupMapper meetupMapper;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     @Override
     public MeetupDto getById(Long id) {
         log.debug("Reading the Meetup by ID {}", id);
-        return meetupMapper.convertToDto(safeGetById(id));
+        Meetup meetup = safeGetById(id);
+        return meetupMapper.convertToDto(meetup);
     }
 
     @Override
-    public List<MeetupDto> getAll() {
-        log.debug("Reading all Meetups.");
-        List<Meetup> allMeetups = meetupDao.getAll();
+    public List<MeetupDto> getByParams(String topic, String host, String stringDate) {
+        log.debug("Reading all Meetups.Filtering params Topic - {}, Host - {}, Date - {}",
+                topic, host, stringDate);
+        LocalDateTime date = null;
+        if (stringDate != null) {
+            date = LocalDateTime.parse(stringDate, formatter);
+        }
+        List<Meetup> allMeetups = meetupDao.getByParams(topic, host, date);
         return allMeetups.stream().map(meetupMapper::convertToDto).toList();
     }
 
@@ -49,7 +60,7 @@ private final MeetupMapper meetupMapper;
         }
 
         List<Meetup> byTopic = meetupDao.getByTopic(meetupDto.getTopic());
-        if(! byTopic.isEmpty()){
+        if (!byTopic.isEmpty()) {
             throw new DuplicateFieldException(meetupDto.getTopic(), "topic");
         }
 

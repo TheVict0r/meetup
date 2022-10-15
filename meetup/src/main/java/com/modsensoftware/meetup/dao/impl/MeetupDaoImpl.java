@@ -1,17 +1,21 @@
 package com.modsensoftware.meetup.dao.impl;
 
 import com.modsensoftware.meetup.dao.MeetupDao;
-import com.modsensoftware.meetup.dao.entity.Meetup;
+import com.modsensoftware.meetup.dao.filter.FilterProvider;
+import com.modsensoftware.meetup.entity.Meetup;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Log4j2
+@RequiredArgsConstructor
 @Repository
 public class MeetupDaoImpl implements MeetupDao {
 
@@ -19,6 +23,8 @@ public class MeetupDaoImpl implements MeetupDao {
     public static final String BY_TOPIC = "from Meetup where topic = :topic";
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final FilterProvider filterProvider;
 
     @Override
     public Optional<Meetup> getById(long id) {
@@ -35,10 +41,15 @@ public class MeetupDaoImpl implements MeetupDao {
     }
 
     @Override
-    public List<Meetup> getAll(){
-        log.debug("Reading all Meetups.");
-        TypedQuery<Meetup> query = entityManager.createQuery(FROM_MEETUP, Meetup.class);
-        return query.getResultList();
+    public List<Meetup> getByParams(String topic, String host, LocalDateTime date){
+        log.debug("Reading all Meetups.Filtering params Topic - {}, Host - {}, Date - {}",
+                topic, host, date);
+
+        String query = filterProvider.provideQuery(topic, host, date);
+
+        TypedQuery<Meetup> meetupTypedQuery = filterProvider.setParametersToQuery(topic, host, date, query);
+
+        return meetupTypedQuery.getResultList();
     }
 
     @Override

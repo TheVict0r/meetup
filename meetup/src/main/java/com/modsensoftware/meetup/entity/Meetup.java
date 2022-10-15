@@ -1,4 +1,4 @@
-package com.modsensoftware.meetup.dao.entity;
+package com.modsensoftware.meetup.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

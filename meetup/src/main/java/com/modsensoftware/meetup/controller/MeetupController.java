@@ -5,7 +5,6 @@ import com.modsensoftware.meetup.service.MeetupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +33,7 @@ public class MeetupController {
      * Reads the {@code Meetup} by its <b>ID</b> from the datasource.
      *
      * @param id {@code Meetup's} <b>ID</b>
+     *
      * @return DTO with the {@code Meetup} data, returned by the corresponding service
      * level method
      */
@@ -50,16 +51,19 @@ public class MeetupController {
      * method.
      */
     @GetMapping
-    public List<MeetupDto> getAll() {
-        log.info("Reading all Meetups.");
-        return meetupService.getAll();
+    public List<MeetupDto> getByParams(
+            @RequestParam(value = "topic", required = false) String topic,
+            @RequestParam(value = "host", required = false) String host,
+            @RequestParam(value = "date", required = false) String stringDate) {
+        log.info("Reading Meetups. Filtering params Topic - {}, Host - {}, Date - {}",
+                topic, host, stringDate);
+        return meetupService.getByParams(topic, host, stringDate);
     }
 
     /**
      * Creates a new {@code Meetup} in the datasource
      *
-     * @param meetupDto
-     *            DTO containing all data for creating the {@code Meetup}
+     * @param meetupDto DTO containing all data for creating the {@code Meetup}
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -71,10 +75,8 @@ public class MeetupController {
     /**
      * Updates the {@code Meetup} by its <b>ID</b> in the datasource.
      *
-     * @param id
-     *            {@code Meetup's} <b>ID</b>
-     * @param meetupDto
-     *            DTO entity with the data for the new {@code Meetup}
+     * @param id {@code Meetup's} <b>ID</b>
+     * @param meetupDto DTO entity with the data for the new {@code Meetup}
      */
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -87,17 +89,14 @@ public class MeetupController {
     /**
      * Deletes the {@code Meetup} by its <b>ID</b> from the datasource.
      *
-     * @param id
-     *            {@code Meetup's} <b>ID</b>
+     * @param id {@code Meetup's} <b>ID</b>
      */
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteById(
+    public void deleteById(
             @Min(value = 1, message = "message.validation.id.min") @PathVariable("id") Long id) {
         log.info("Deleting Meetup by ID - {}", id);
         meetupService.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
-
 
 }
