@@ -80,8 +80,8 @@ public class MeetupServiceImpl implements MeetupService {
         }
 
         safeGetById(pathId);
-        meetupDao.update(meetupMapper.convertToEntity(meetupDto));
-        return meetupDto;
+        Meetup meetupUpdated = meetupDao.update(meetupMapper.convertToEntity(meetupDto));
+        return meetupMapper.convertToDto(meetupUpdated);
     }
 
     @Override
