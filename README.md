@@ -26,19 +26,19 @@ CRUD Rest API for working with meetups.
 - PostgreSQL (Scripts for DB creation and test data provided)
 
 ## Installation
-1. Clone this git repository 
-   `git clone https://github.com/TheVict0r/meetup.git`
-2. Use file **create_db.sql** (from *PostgreSQL_scripts* folder) for PostgreSQL database creation
-3. Use file **data_entry** (from *PostgreSQL_scripts* folder) for entering meetups data 
-4. In the file **meetup\\src\\main\\resources\\application.properties**
-   enter your username and password for PostgreSQL database as well as port 
-   see lines:
-   `spring.datasource.url=jdbc:postgresql://localhost:5432/meetup`
-   `spring.datasource.username=`
-   `spring.datasource.password=`
-5. To build and run the app in the *meetup* directory (where **pom.xml** and **mvnw.cmd** files are situated) run:
-   `.\mvnw clean install`
-   `java -jar target\meetup-0.0.1-SNAPSHOT.jar`
+1. Clone this git repository  
+   `git clone https://github.com/TheVict0r/meetup.git`  
+2. Use file [create_db.sql](https://github.com/TheVict0r/meetup/blob/main/PostgreSQL_scripts/create_db.sql) for PostgreSQL database creation
+3. Use file [data_entry](https://github.com/TheVict0r/meetup/blob/main/PostgreSQL_scripts/data_entry.sql) for entering meetups data 
+4. In the file **meetup\\src\\main\\resources\\application.properties**  
+   enter your username and password for PostgreSQL database as well as port  
+   see lines:  
+   `spring.datasource.url=jdbc:postgresql://localhost:5432/meetup`  
+   `spring.datasource.username=`  
+   `spring.datasource.password=`  
+5. To build and run the app in the *meetup* directory (where **pom.xml** and **mvnw.cmd** files are situated) run:  
+   `.\mvnw clean install`  
+   `java -jar target\meetup-0.0.1-SNAPSHOT.jar`  
 
 
 
