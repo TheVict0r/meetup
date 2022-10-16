@@ -1,0 +1,10 @@
+CREATE DATABASE meetup;
+CREATE TABLE IF NOT EXISTS meetup (
+    id SERIAL NOT NULL,
+    topic VARCHAR(30) UNIQUE NOT NULL,
+    description VARCHAR(150) NOT NULL,
+    host VARCHAR(30) NOT NULL,
+    date TIMESTAMP NOT NULL,
+    venue VARCHAR(70) NOT NULL,
+    PRIMARY KEY (id));
+

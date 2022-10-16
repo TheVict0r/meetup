@@ -15,8 +15,6 @@
 
 .idea/
 
-.mvn
-
 target/
 
 logs/
